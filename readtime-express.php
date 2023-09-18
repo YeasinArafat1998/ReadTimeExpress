@@ -16,6 +16,7 @@ add_action('plugins_loaded', 'rte_plugin_init');
 
 // Add word count and reading time to content
 function add_wordcount_readingtime_to_content($content) {
+     if (is_single()) {
     global $post;
 
     // Get post content
@@ -78,7 +79,7 @@ function add_wordcount_readingtime_to_content($content) {
     $counts_html .= "</div>";
 
     $content .= $counts_html;
-
+     }
     return $content;
 }
 
