@@ -2,14 +2,19 @@
 /*
 Plugin Name: ReadTime Express
 Description: Add word count and reading time to content.
-Version: 1.0
+Version: 1.0.0
 Author: Yeasin Arafat
-Text Domain: rte
+Text Domain: ReadTimeExpress-main
 */
+
+// don't call the file directly
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
 
 // Load the translation files
 function rte_plugin_init() {
-    load_plugin_textdomain('rte', false, dirname(plugin_basename(__FILE__)) . '/languages/');
+    load_plugin_textdomain('ReadTimeExpress-main', false, dirname(plugin_basename(__FILE__)) . '/languages/');
 }
 
 add_action('plugins_loaded', 'rte_plugin_init');
@@ -23,7 +28,7 @@ function add_wordcount_readingtime_to_content($content) {
     $post_content = $post->post_content;
 
     // Calculate word count
-    $word_count = str_word_count(strip_tags($post_content));
+    $word_count = str_word_count(wp_strip_all_tags($post_content));
 
     // Get custom reading speed (default to 200 words per minute)
     $reading_speed = get_option('custom_reading_speed', 200);
@@ -32,10 +37,10 @@ function add_wordcount_readingtime_to_content($content) {
     $reading_time = ceil($word_count / $reading_speed);
 
     // Calculate letter count
-    $letter_count = strlen(str_replace(' ', '', strip_tags($post_content)));
+    $letter_count = strlen(str_replace(' ', '', wp_strip_all_tags($post_content)));
 
     // Calculate character count
-    $character_count = strlen(strip_tags($post_content));
+    $character_count = strlen(wp_strip_all_tags($post_content));
 
     // Calculate paragraph count
     $paragraphs = substr_count($post_content, '</p>');
@@ -44,7 +49,7 @@ function add_wordcount_readingtime_to_content($content) {
     $sentences = preg_match_all('/[.!?]+/', $post_content, $matches);
 
     // Split the content into words
-    $words = str_word_count(strip_tags($post_content), 1);
+    $words = str_word_count(wp_strip_all_tags($post_content), 1);
 
     // Calculate the total word length
     $total_word_length = array_sum(array_map('strlen', $words));
@@ -63,17 +68,17 @@ function add_wordcount_readingtime_to_content($content) {
 
     // Add the counts and additional features to the post content
     $counts_html = "<div class='wordcount-readingtime'>";
-    $counts_html .= "<p>" . __('Word Count:', 'rte') . " $word_count</p>";
-    $counts_html .= "<p>" . __('Reading Time:', 'rte') . " $reading_time " . __('minute(s)', 'rte') . "</p>";
-    $counts_html .= "<p>" . __('Letter Count:', 'rte') . " $letter_count</p>";
-    $counts_html .= "<p>" . __('Character Count:', 'rte') . " $character_count</p>";
-    $counts_html .= "<p>" . __('Paragraph Count:', 'rte') . " $paragraphs</p>";
-    $counts_html .= "<p>" . __('Sentence Count:', 'rte') . " $sentences</p>";
-    $counts_html .= "<p>" . __('Average Word Length:', 'rte') . " " . number_format($average_word_length, 2) . " " . __('characters', 'rte') . "</p>";
-    $counts_html .= "<p>" . __('Top 5 Most Frequent Words:', 'rte') . "</p>";
+    $counts_html .= "<p>" . __('Word Count:', 'ReadTimeExpress-main') . " $word_count</p>";
+    $counts_html .= "<p>" . __('Reading Time:', 'ReadTimeExpress-main') . " $reading_time " . __('minute(s)', 'ReadTimeExpress-main') . "</p>";
+    $counts_html .= "<p>" . __('Letter Count:', 'ReadTimeExpress-main') . " $letter_count</p>";
+    $counts_html .= "<p>" . __('Character Count:', 'ReadTimeExpress-main') . " $character_count</p>";
+    $counts_html .= "<p>" . __('Paragraph Count:', 'ReadTimeExpress-main') . " $paragraphs</p>";
+    $counts_html .= "<p>" . __('Sentence Count:', 'ReadTimeExpress-main') . " $sentences</p>";
+    $counts_html .= "<p>" . __('Average Word Length:', 'ReadTimeExpress-main') . " " . number_format($average_word_length, 2) . " " . __('characters', 'ReadTimeExpress-main') . "</p>";
+    $counts_html .= "<p>" . __('Top 5 Most Frequent Words:', 'ReadTimeExpress-main') . "</p>";
     $counts_html .= "<ul>";
     foreach ($top_words as $word => $count) {
-        $counts_html .= "<li>$word ($count " . __('occurrences', 'rte') . ")</li>";
+        $counts_html .= "<li>$word ($count " . __('occurrences', 'ReadTimeExpress-main') . ")</li>";
     }
     $counts_html .= "</ul>";
     $counts_html .= "</div>";
