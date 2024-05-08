@@ -4,12 +4,12 @@ Donate link:
 Tags: WordPress Content 
 Requires at least: 4.0
 Tested up to: 4.8
-Stable tag: trunk
+Stable tag: 1.0.0
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Elevate your content strategy with essential metrics. Quickly analyze word count, estimate reading time, and gain valuable insights into your text's structure and composition.
+Analyze content with ease. Estimate reading time, word count, and more.
 
 == Description ==
 
